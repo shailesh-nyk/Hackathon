@@ -1,0 +1,11 @@
+<div id='jt-app-header'>
+    <div style='display:flex; align-items: center'> <mat-icon id='jt-logo'>language</mat-icon> <span class='jt-title'>JANHITech</span></div> 
+    <div class='jt-user-text'> Logged in as <mat-icon style='padding-left: 8px; padding-right: 8px;'>account_circle</mat-icon> {{appConfig.loggedinuser}}</div>
+    <mat-icon [matMenuTriggerFor]="moreOptionsMenu" id='jt-more-options'>more_vert</mat-icon>
+</div>
+
+<mat-menu #moreOptionsMenu>
+        <button mat-menu-item>My Account</button>
+        <button mat-menu-item>Settings</button>
+        <button mat-menu-item (click)="logout()">Log out</button>
+</mat-menu>

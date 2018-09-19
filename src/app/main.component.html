@@ -1,0 +1,39 @@
+<ng-container *ngIf="appConfig.ifLoggedIn">
+    <div class="jt-main-pg">
+            <jt-app-header></jt-app-header>
+            <div id='jt-page-content'>
+                <router-outlet> </router-outlet>
+            </div>
+    </div>
+</ng-container>
+<ng-container *ngIf="!appConfig.ifLoggedIn">
+        <div class="jt-login-pg">
+            <div style='font-size: 18px; font-weight: bold;color:#3f51b5; margin-bottom: 32px;'>Welcome to JANHITech!!!</div>
+            <div class='login-container'>
+                    <form [formGroup]="frmLogin" (submit)="frmLogin.valid && login()">
+                            <div>
+                                <mat-input-container>
+                                    <input placeholder="Enter username" matInput formControlName="username" required/>
+                                    <mat-hint  class="jt-error" *ngIf="frmLogin.controls.username.touched && frmLogin.controls.username.hasError('required')">
+                                        Username is required
+                                    </mat-hint>
+                                </mat-input-container>
+                            </div>
+                            <div>
+                                <mat-input-container>
+                                    <input type='password' placeholder="Enter password" matInput formControlName="password" required/>
+                                    <mat-hint class="jt-error" *ngIf="frmLogin.controls.password.touched && frmLogin.controls.password.hasError('required')">
+                                        Password is required
+                                    </mat-hint>
+                                </mat-input-container>
+                            </div>
+                            <div style='margin-top: 24px;'>
+                                 <button mat-raised-button color='primary'>LOGIN!</button>
+                            </div>
+                        </form>
+            </div>
+      </div>
+</ng-container>
+
+
+

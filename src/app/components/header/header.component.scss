@@ -1,0 +1,31 @@
+#jt-app-header {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 48px;
+    background-color: #3f51b5;
+    color:white;
+    box-shadow:0px 0px 12px 0px rgba(0,0,0,.5);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+
+    #jt-logo {
+        font-size: 32px;
+        height: 32px;
+        width: 32px;
+        margin-left: 32px;
+        margin-right: 32px;
+    }
+    .jt-user-text {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+    }
+    #jt-more-options {
+        margin-right: 16px;
+    }
+}

@@ -1,0 +1,44 @@
+<div *ngIf = "spinner">
+        <jt-spinner></jt-spinner>
+</div>
+
+<div id='jt-med-hist-modal'>
+    <div mat-dialog-content>
+        <div style='width: 100%; height: 32px; display: flex; justify-content: space-between; align-items: center;'>
+            <span class='jt-title'> {{patient.name}}, {{details.age}} when diagnosed </span>  <mat-icon style="vertical-align: top; float: right;" (click)="dialogRef.close()">close</mat-icon>
+        </div>
+        <div style='width:100%; display: flex; flex-wrap: nowrap;'>
+            <div style='widows: 50%; margin-right: 8px;'>
+                <div class='card'>
+                    <div class='card-title'>Treatment Details</div>
+                    <div>
+                        <div class='jt-fieldname'>Date:</div>
+                        <div class='jt-fieldval'>{{patient.treatmentDate}}</div>
+                    </div>
+                    <div>
+                        <div class='jt-fieldname'>Treated at:</div>
+                        <div class='jt-fieldval'>{{patient.treatedAt}}</div>
+                    </div>
+                    <div>
+                        <div class='jt-fieldname'>Treated by:</div>
+                        <div class='jt-fieldval'>{{patient.treatedBy}}</div>
+                    </div>
+                </div>
+              
+                <div class='card'>
+                <div class='card-title'>Diagnosis</div> 
+                    {{details.diagnosis}}
+                </div>
+            </div>
+            <div style='widows: 50%;'>
+                <div class='card'>
+                    <div class='card-title'>Symptoms</div> 
+                    {{details.symptoms}}
+                </div>
+                <div class='card'>
+                    <div class='card-title'>Reports</div> 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

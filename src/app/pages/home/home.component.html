@@ -1,0 +1,219 @@
+<div id='jt-home-pg'  [@enterAnimation]>
+    <mat-tab-group class='tab-container'>
+    <mat-tab label="RETRIEVE">
+        <form [formGroup]="frmSearch" (submit)="frmSearch.valid && sendOTP()">
+            <div id='jt-search-container'>
+                <div> Enter Aadhaar ID: </div>
+                <div>
+                    <mat-input-container>
+                        <input (focus)="clearErr()" id='jt-search-input' matInput type='search' formControlName="search" maxlength="12" />
+                        <mat-hint class="jt-error" *ngIf="frmSearch.controls.search.touched && (frmSearch.controls.search.hasError('maxlength') || frmSearch.controls.search.hasError('required') || frmSearch.controls.search.hasError('pattern'))">
+                            Please enter a valid Aadhaar number!
+                        </mat-hint>
+                    </mat-input-container>
+                </div>
+                <button type='submit' class='jt-search-button'>
+                    <!-- <mat-icon>search</mat-icon> -->
+                    SEND OTP</button>
+            </div>
+            <div *ngIf="otperr" class='jt-error' style='display: flex; justify-content: center;'> Something went wrong!</div>
+            </form>
+            <div style='display: flex; flex-wrap:nowrap; box-sizing: border-box;padding: 16px' *ngIf="isSearchComplete">
+            <!-- LEFT SIDE OF PAGE -->
+                <div id='jt-search-result-container'>
+                    <div class='jt-card-header'> Patient Details </div>
+                    <div *ngIf="patientDetails !== undefined" class='jt-search-details-container'>
+                        <div class='jt-search-details'>
+                            <div>
+                                <div class='jt-fieldname'>Aadhaar No:</div>
+                                <div class='jt-fieldval'>{{patientDetails.id}}</div>
+                            </div>
+                            <div>
+                                <div class='jt-fieldname'>Name:</div>
+                                <div class='jt-fieldval'>{{patientDetails.name}}</div>
+                            </div>
+                            <div>
+                                <div class='jt-fieldname'>Gender:</div>
+                                <div class='jt-fieldval'>{{patientDetails.gender}}</div>
+                            </div>
+                            <div>
+                                <div class='jt-fieldname'>Age:</div>
+                                <div class='jt-fieldval'>{{patientDetails.age}}</div>
+                            </div>
+                            <div>
+                                <div class='jt-fieldname'>Contact:</div>
+                                <div class='jt-fieldval'>{{patientDetails.contactNumber}}</div>
+                            </div>
+                            <!-- <div>
+                                <div class='jt-fieldname'>Address:</div>
+                                <div class='jt-fieldval'>{{patientDetails.address}}</div>
+                            </div> -->
+                        </div>
+                        <div style='flex:1'></div>
+                        <div>
+                            <mat-icon style='height: 140px; width: 140px; font-size:140px'>person</mat-icon>
+                        </div>
+                    </div>
+                    <div *ngIf="patientDetails == undefined">
+                        <div style='width: 100%; height: 150px; display: flex; justify-content: center; align-items: center;'> Sorry the search could not retrieve any records. </div>
+                    </div>
+                </div>
+           <!-- RIGHT SIDE  -->
+            <div id='jt-medical-history-container'>
+                <div class='jt-card-header'> Medical History
+                    <mat-icon class='jt-primary-icon' [matTooltip]="medHistTooltip" matTooltipPosition="before">info</mat-icon>
+                </div>
+                <ng-container *ngIf="noHistRecords > 0">
+                    <mat-table #table [dataSource]="dataSource">
+                        <ng-container matColumnDef="date">
+                            <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{editDate(element.treatmentDate)}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="treatedby">
+                            <mat-header-cell *matHeaderCellDef> Treated By </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.treatedBy}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="treatedat">
+                            <mat-header-cell *matHeaderCellDef> Treated At </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.treatedAt}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="diagnosis">
+                            <mat-header-cell *matHeaderCellDef> Diagnosis </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.diagnosis}} </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="more">
+                            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <mat-icon (click)="expandHistory(element)">launch</mat-icon>
+                            </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                    </mat-table>
+                    <mat-paginator #paginator [length]="noHistRecords" [pageSize]="5" [pageSizeOptions]="[5, 10 , 15]"></mat-paginator>
+                </ng-container>
+                <ng-container *ngIf="noHistRecords === 0">
+                    <div style='width: 100%; height: 150px; display: flex; justify-content: center; align-items: center;'>
+                        <div style='color: grey'> No Medical history found for this patient. </div>
+                    </div>
+                </ng-container>
+            </div>
+           </div>
+            <div *ngIf="!isSearchComplete">
+                
+            </div>
+    </mat-tab>
+    <mat-tab label="PREDICT">
+        <div style='display: flex; flex-wrap: nowrap; width: 100%;'>
+                <div id='jt-diag-suggestion-container'>
+                        <div class='jt-card-header'> Need suggestions on diagnosis?
+                            <mat-icon class='jt-secondary-icon'>info</mat-icon>
+                        </div>
+                        <div style='display:flex; flex-wrap: nowrap;'>
+                            <div class='jt-symptom-input-container'>
+                                <mat-input-container>
+                                    <input type='search' placeholder='Enter symptoms' id='jt-symptom-input' matInput type="text" [(ngModel)]="enteredSymptom" onfocus="this.value=''"/>
+                                </mat-input-container>
+                                <mat-icon (click)='addSymptomsDL()'>add_circle</mat-icon>
+                            </div>
+                            <div class='jt-symptom-list-container' *ngIf='symptomListDL.length > 0'>
+                                <div class='jt-symptoms-list'>
+                                    <mat-chip-list>
+                                        <mat-chip *ngFor="let item of symptomListDL; let i = index;">
+                                            <span>{{item}}</span>
+                                            <mat-icon (click)="removeSymptomItem(i)">close</mat-icon>
+                                        </mat-chip>
+                                    </mat-chip-list>
+                                </div>
+                                <button mat-raised-button (click)="getPredictions()">GO!</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div style='width:45%; display: flex; flex-direction: column;'>
+                        <div *ngFor='let item of predictions' style='min-height: 200px; width: 250px; margin:    auto;  display: flex; flex-direction: column; justify-content: center; align-items: center'
+                        [ngClass]="{'predict-bad': item.probability >= 75 , 'predict-good': (item.probability >= 40 && item.probability < 75), 'predict-best': item.probability < 40}">
+                            <div style='font-weight: bold; font-size: 20px;'>{{item.disease}}</div>
+                            <div style='margin-top: 16px;'>Accuracy: <span style='font-size: 20px;'> {{item.probability}} % </span> </div> 
+                        </div>
+                    </div>
+        </div>
+        </mat-tab>
+        <mat-tab label="PRESCRIBE" [disabled]="!isSearchComplete">
+        <form [formGroup]="frmPrescription" (submit)="submitPrescription()">
+           <div style='width:60%; margin: 24px auto; box-sizing: border-box'>
+                Please fill out the prescription form and click on SUBMIT
+           </div> 
+           <div style='width:60%; margin: auto; box-sizing: border-box'>
+                        <!-- <div>
+                            <mat-form-field style='width: 150px;'>
+                                    <input placeholder="Select date" matInput  [matDatepicker]="myDatepicker" formControlName="date">
+                                    <mat-datepicker-toggle matSuffix  [for]="myDatepicker">Use current date</mat-datepicker-toggle>
+                                    <mat-datepicker startView="year" [startAt]="startDate" #myDatepicker></mat-datepicker>
+                            </mat-form-field>
+                        </div> -->
+                        <div>
+                            <mat-input-container  style='width: 150px;'>
+                                <input disabled='true' type="text" maxlength="12" disabled formControlName="id" matInput placeholder="Enter patient's Aadhaar"/>
+                            </mat-input-container>
+                        </div>
+                        <div style='display: flex; flex-wrap: nowrap; align-items: center;'>
+                            <mat-input-container style='width: 150px;'>
+                                <input type="text"  formControlName="symptom" matInput placeholder="Enter symptom"/>
+                            </mat-input-container>
+                            <button type='button' style='height: 32px; margin-left:24px;' mat-raised-button (click)="addPrescSymptom()">ADD</button>
+                            <div *ngIf="symptomListPresc.length > 0" style='margin-left:24px; border-radius: 8px; border: 1px solid lightgrey; padding: 16px; flex: 1;'>
+                                <mat-chip-list>
+                                    <mat-chip style='margin-bottom: 6px' *ngFor="let item of symptomListPresc; let i = index;">
+                                        <span>{{item}}</span>
+                                        <mat-icon style='margin-left : 4px;
+                                        font-size: 13px;
+                                        height: 13px;
+                                        width: 13px;
+                                        color: grey;' (click)="removeSymptomItemPresc(i)">close</mat-icon>
+                                    </mat-chip>
+                                </mat-chip-list>
+                            </div>                        
+                        </div>
+                        <div style='margin-top: 16px; '>
+                            <mat-input-container style='width: 250px;border: 1px solid lightgrey; padding: 6px; border-radius: 24px;'>
+                                <textarea formControlName="diagnosis" matInput placeholder="Enter your diagnosis"></textarea>
+                            </mat-input-container>
+                        </div>
+                        <div style='display: flex; flex-wrap: nowrap; align-items: center; margin-top: 16px;'>
+                                <mat-input-container style='width: 150px;'>
+                                    <input type="text"  formControlName="prescription" matInput placeholder="Enter prescription"/>
+                                </mat-input-container>
+                                <button type='button' style='height: 32px; margin-left:24px;' mat-raised-button (click)="addPrescItem()">ADD</button>
+                                <div *ngIf="prescList.length > 0" style='margin-left:24px; border-radius: 8px; border: 1px solid lightgrey; padding: 16px; flex: 1;'>
+                                    <mat-chip-list>
+                                        <mat-chip style='margin-bottom: 6px' *ngFor="let item of prescList; let i = index;">
+                                            <span>{{item}}</span>
+                                            <mat-icon style='margin-left : 4px;
+                                            font-size: 13px;
+                                            height: 13px;
+                                            width: 13px;
+                                            color: grey;' (click)="removePrescItem(i)">close</mat-icon>
+                                        </mat-chip>
+                                    </mat-chip-list>
+                                </div>                        
+                        </div>
+           </div>
+           <div style='height: 42px; width:60%; margin: 32px auto; box-sizing: border-box;'>
+                <button type="submit" style='height: 40px; float: right;' mat-raised-button color='primary'>SUBMIT</button>
+           </div>
+        </form>
+        </mat-tab>
+    </mat-tab-group>
+</div>
+
+<div *ngIf="spinner">
+    <jt-spinner></jt-spinner>
+</div>
+<div *ngIf="dataSource.loading$ | async">
+    <jt-spinner></jt-spinner>
+</div>

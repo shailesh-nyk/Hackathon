@@ -1,0 +1,264 @@
+#jt-home-pg {
+    padding: 16px;
+    ::ng-deep .mat-tab-label {
+        width: 33%;
+    }
+    .tab-container {
+        min-height: 300px;
+        border: 1px solid lightgrey;
+        -webkit-box-shadow: 5px 5px 5px #666; 
+        -moz-box-shadow:    5px 5px 5px #666;
+        box-shadow:         5px 5px 5px #666;
+    }
+    #jt-search-container {
+        display:flex;
+        align-items: center;
+        margin: auto;
+        justify-content: center;
+        width: 750px;
+        //border: 1px solid black;
+        //border-radius: 16px;
+        input {
+            font-size: 22px;
+            color: #32404e;
+        }
+        div {
+            margin-right: 16px;
+        }
+        .jt-search-button {
+            color: cornsilk;
+            background-color: #3f51b5;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: nowrap;
+            align-items: center;
+            border: 1px solid #3f51b5;
+            border-radius: 20px;
+            padding: 6px 16px;
+            cursor: pointer;
+            min-width: 80px;
+            outline: none !important;
+            margin-left:16px;
+            margin-right:16px;
+        }
+        .jt-search-button:hover {
+            transition: box-shadow .25s;
+            -webkit-transition: box-shadow .25s;
+            transition: width .25s;
+            -webkit-transition: width .25s;
+            box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+            min-width: 84px;
+        }
+    }
+    #jt-search-result-container {
+        width: 45%;
+        height: 200px;
+        box-sizing: border-box;
+        margin-right: 16px ;
+        color: cornsilk;
+        background-color: #3f51b5;
+        min-height: 100px;
+        box-shadow:0px 0px 8px 0px rgba(0,0,0,.5);
+        padding: 16px;
+        .jt-search-details-container {
+            display: flex;
+            flex-wrap: nowrap;
+            margin-top: 20px;
+        }
+        .jt-search-details {
+            div {
+                height: 24px;
+                width: 100%;
+                display: flex;
+                flex-wrap: nowrap;
+            }
+            .jt-fieldname {
+                width: 90px;
+                font-weight: bold;
+                display: flex;
+                justify-content: flex-end;
+            }
+            .jt-fieldval {
+                width: calc(100% - 90px);
+                padding-left: 8px;
+            }
+        }
+    }
+    #jt-medical-history-container {
+        width: 55%;
+        min-height: 210px;
+        box-sizing: border-box;
+        padding: 16px;
+        box-shadow:0px 0px 8px 0px rgba(0,0,0,.5);
+        #jt-med-history {
+            margin-top: 16px;
+            border: 1px solid darkgrey;
+            text-align: center;
+        }
+        .jt-mh-row {
+            min-height: 40px;
+            border-bottom: 1px solid darkgrey;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            flex-wrap: nowrap;
+        }
+        .jt-header-row {
+            font-weight: bold;
+            background-color: #3f51b5;
+            color: cornsilk;
+        }
+        .jt-col-date { width: 15%;}
+        .jt-col-trtby { width: 25%;}
+        .jt-col-trtat { width: 25%;}
+        .jt-col-diag { width: 25%;}
+        .jt-col-more { width: 10%; mat-icon { color: grey; } mat-icon:hover { color: #3f51b5; }}
+    }
+    #jt-diag-suggestion-container {
+        box-sizing: border-box;
+        margin: 24px;
+        padding: 16px;
+        box-shadow:0px 0px 8px 0px rgba(0,0,0,.5);
+        background-color: purple;
+        color: cornsilk;
+        width: 60%;
+
+        .jt-symptom-input-container {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 24px;
+            margin-bottom: 24px;
+            width: 65%;
+            margin-right: 8px;
+            mat-input-container {
+                width: 65%;
+                background-color: cornsilk;
+                color: purple;
+                font-weight: bold;
+                border-radius: 32px;
+                padding: 8px 16px 0 16px;
+            }
+            mat-icon {
+                margin-top: 8px;
+                margin-left: 16px;
+                height: 42px;
+                width: 42px;
+                font-size: 42px;
+            }
+            mat-icon:hover {
+                transition: width .1s , height .1s , font-size .1s;
+                -webkit-transition: width .1s , height .1s , font-size .1s;
+                font-size: 46px;
+                height: 46px;
+                width: 46px;
+            }
+        }
+        .jt-symptom-list-container {
+            width: 50%;
+            .jt-symptoms-list {
+                background-color: cornsilk;
+                font-weight: bold;
+                margin-top: 24px;
+                border-radius: 8px;
+                padding: 8px;
+                mat-chip {
+                    margin: 5px;
+                    background-color: lightpink;
+                    mat-icon {
+                        margin-left : 4px;
+                        font-size: 13px;
+                        height: 13px;
+                        width: 13px;
+                        color: grey;
+                    }
+                    mat-icon:hover {
+                        color: purple;
+                        transition: width .01s , height .01s , font-size .01s;
+                        -webkit-transition: width .01s , height .01s , font-size .01s;
+                        font-size: 16px;
+                        height: 16px;
+                        width: 16px;
+                    }
+
+                }
+            }
+            button {
+                margin-top: 8px;
+                color: purple !important;
+                background-color: cornsilk;
+                font-weight: bold; 
+                float: right;
+            }
+        }
+    }
+
+    //COMMON
+    .jt-card-header {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        font-size: 18px;
+        .jt-primary-icon {
+            color: grey;
+        }
+        .jt-primary-icon:hover {
+            color: #3f51b5;
+        }
+        .jt-secondary-icon {
+            color: cornsilk;
+        }
+        .jt-secondary-icon:hover {
+            color: grey;
+        }
+    }
+    .mat-header-row {
+        min-height: 48px;
+    }
+
+}
+
+#jt-prescription-pg {
+    .jt-block-input {
+        display: block;
+    }
+    .jt-pres-form {
+        padding : 24px;
+    }
+}
+
+.jt-search-button {
+    color: cornsilk;
+    background-color: #3f51b5;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    align-items: center;
+    border: 1px solid #3f51b5;
+    border-radius: 20px;
+    padding: 3px 16px;
+    cursor: pointer;
+    min-width: 80px;
+    outline: none !important;
+    margin-left:16px;
+    margin-right:16px;
+}
+.jt-search-button:hover {
+    transition: box-shadow .25s;
+    -webkit-transition: box-shadow .25s;
+    transition: width .25s;
+    -webkit-transition: width .25s;
+    box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    min-width: 84px;
+}
+.predict-best {
+    background-color: #009940; 
+    color:white;
+}
+.predict-good {
+    background-color: #ff6b0b; 
+    color:white;
+}
+.predict-bad {
+    background-color: #db1a20; 
+    color:white;
+}
